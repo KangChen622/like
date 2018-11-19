@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="l.css">
+    <script src="jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+    <div class="box">
+        <ul class="ull">
+            <li><a href="javascipt:;"><img src="image/1.jpg" alt=""></a></li>
+            <li><a href="javascipt:;"><img src="image/2.jpg" alt=""></li>
+            <li><a href="javascipt:;"><img src="image/3.jpg" alt=""></li>
+            <li><a href="javascipt:;"><img src="image/4.jpg" alt=""></li>
+            <li><a href="javascipt:;"><img src="image/5.jpg" alt=""></li>
+        </ul>
+        <a href="javascript:;" class="pre">&lt;</a>
+        <a href="javascript:;" class="next">&gt;</a>
+    </div>
+    <script>
+        $(function () {
+            var config = [{
+                    width: 500,
+                    height: 285,
+                    top: 0,
+                    left: 275,
+                    opacity: 1,
+                    zIndex: 2
+                },
+                {
+                    width: 500,
+                    height: 275,
+                    top: 10,
+                    left: 550,
+                    opacity: 0.8,
+                    zIndex: 1
+                },
+                {
+                    width: 500,
+                    height: 275,
+                    top: 10,
+                    left: 450,
+                    opacity: 0,
+                    zIndex: 0
+                },
+                {
+                    width: 500,
+                    height: 275,
+                    top: 10,
+                    left: 100,
+                    opacity: 0,
+                    zIndex: 0
+                },
+                {
+                    width: 500,
+                    height: 275,
+                    top: 10,
+                    left: 0,
+                    opacity: 0.8,
+                    zIndex: 1
+                },
+            ]
+            var flag = true;
+            var fn = function () {
+                var index = $('.ull li').index();
+                for (var i = 0; i < 5; i++) {
+                    $('.ull li').eq(i).css({
+                        width: config[i].width + 'px',
+                        top: config[i].top + 'px',
+                        left: config[i].left + 'px',
+                        opacity: config[i].opacity,
+                        zIndex: config[i].zIndex,
+                    })
+                }
+                flag = true;
+            }
+            fn();
+            var timerd;
+            var clock=function(){
+                timerd=setInterval(function () { 
+                 $('.next').click();
+                 },2000);
+            }
+            clock();
+            $('.ull').mouseenter(function () { 
+                clearInterval(timerd);
+             }).mouseleave(function () {
+                 clock();
+               })
+
+
+            $('.next').click(function () {
+                if (flag) {
+                    flag = false;
+                    config.push(config.shift());
+                    fn();
+                    // 将第一个元素的值追加到最后
+                }
+            })
+
+            $('.pre').click(function () {
+                if (flag) {
+                    flag = false;
+                    config.unshift(config.pop());
+
+                    // 将数组最后一个加载到第一个
+                    fn();
+                }
+
+            })
+            $('.ull li').click(function () {
+                var a=$(this).offset().left;   
+                if(a<550){
+                    $('.next').click();
+                }else if(a>550){
+                    $('.pre').click();
+                }
+            })
+            
+
+
+        })
+    </script>
+</body>
+
+</html>
